@@ -13,6 +13,9 @@ s_tableHash * create_table(int size)
 
     tableHash->list = malloc(sizeof(s_list)* size);
 
+    tableHash->list->newNode = malloc(sizeof(s_node));
+    tableHash->list->nb_elem_list_chaine = 0;
+
     return tableHash;
 }
 
@@ -28,12 +31,11 @@ s_tableHash * destroyHash(s_tableHash * tableHash)
     free(tableHash);
 }
 
+// Ajout d'un mot
 s_tableHash * appendTableHash(char * str, s_tableHash * tableHash)
 {
     int key = hash(str, tableHash->size);
 
-    //On vérifie si la liste correspondant à la clef
-    //contient déjà des elements
     if (tableHash->list[key].nb_elem_list_chaine == 0)
     {
         tableHash->list[key].newNode = list_create();
@@ -48,24 +50,41 @@ s_tableHash * appendTableHash(char * str, s_tableHash * tableHash)
 
 }
 
-s_tableHash * appendTableHash1(char * str, s_tableHash * tableHash)
+// Afficher le nombre total d'élement
+int nbTotalElement(s_tableHash * laTable)
 {
-    int key = hash(str, tableHash->size);
-
-    s_node * previousNode = tableHash->list->newNode;
-    s_node * currentNode = previousNode->next;
-
-    if(compare_data(previousNode,str) > 0)
+    int nbTotalElement1 = 0;
+    for(int i = 0;i<(laTable->size);i++)
     {
-        
+        nbTotalElement1 = nbTotalElement1 + laTable->list[i].nb_elem_list_chaine;
     }
-
-    while(currentNode->next != NULL)
-    {
-        
-    }
+    return nbTotalElement1;
 }
 
+// Afficher le max et min 
+void afficheStats(s_tableHash * table)
+{
+    int max = table->list[0].nb_elem_list_chaine;
+    int min = table->list[0].nb_elem_list_chaine;
+
+    for(int i = 0; i < table->size; i++)
+    {
+        if(max < table->list[i].nb_elem_list_chaine)
+        {
+            max = table->list[i].nb_elem_list_chaine;
+        }
+
+        if(min > table->list[i].nb_elem_list_chaine)
+        {
+            min = table->list[i].nb_elem_list_chaine;
+        }
+    }
+
+    printf("Nombre maximum d'entrées : %d\n", max);
+    printf("Nombre minimum d'entrées : %d\n", min);
+}
+
+// Retirer un mot
 s_tableHash * removeTableHash(char * str, s_tableHash * tableHash)
 {
     if(str && tableHash)
@@ -83,6 +102,7 @@ s_tableHash * removeTableHash(char * str, s_tableHash * tableHash)
         tableHash->list[key].nb_elem_list_chaine--;
     }
 }
+
 
 
 void afficheTableHash(s_tableHash * tableHash)
@@ -109,8 +129,14 @@ void afficheTableHash(s_tableHash * tableHash)
             }
         printf("]\n");
         }
+
     }
+    
+
 }
+
+
+
 
 int hash(char * str, int nbEntrees)
 {
@@ -127,14 +153,5 @@ int hash(char * str, int nbEntrees)
 
     cle = cle % nbEntrees;
     return cle;
-}
 
-int nbTotalElement(s_tableHash * laTable)
-{
-    int nbTotalElement1 = 0;
-    for(int i = 0;i<(laTable->size);i++)
-    {
-        nbTotalElement1 = nbTotalElement1 + laTable->list[i].nb_elem_list_chaine;
-    }
-    return nbTotalElement1;
 }
