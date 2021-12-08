@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 s_tableHash * create_table(int size)
 {
@@ -48,40 +49,6 @@ s_tableHash * appendTableHash(char * str, s_tableHash * tableHash)
         tableHash->list[key].nb_elem_list_chaine++;
     }
 
-}
-
-// Afficher le nombre total d'élement
-int nbTotalElement(s_tableHash * laTable)
-{
-    int nbTotalElement1 = 0;
-    for(int i = 0;i<(laTable->size);i++)
-    {
-        nbTotalElement1 = nbTotalElement1 + laTable->list[i].nb_elem_list_chaine;
-    }
-    return nbTotalElement1;
-}
-
-// Afficher le max et min 
-void afficheStats(s_tableHash * table)
-{
-    int max = table->list[0].nb_elem_list_chaine;
-    int min = table->list[0].nb_elem_list_chaine;
-
-    for(int i = 0; i < table->size; i++)
-    {
-        if(max < table->list[i].nb_elem_list_chaine)
-        {
-            max = table->list[i].nb_elem_list_chaine;
-        }
-
-        if(min > table->list[i].nb_elem_list_chaine)
-        {
-            min = table->list[i].nb_elem_list_chaine;
-        }
-    }
-
-    printf("Nombre maximum d'entrées : %d\n", max);
-    printf("Nombre minimum d'entrées : %d\n", min);
 }
 
 // Retirer un mot
@@ -135,9 +102,6 @@ void afficheTableHash(s_tableHash * tableHash)
 
 }
 
-
-
-
 int hash(char * str, int nbEntrees)
 {
     int cle = 0;
@@ -154,4 +118,62 @@ int hash(char * str, int nbEntrees)
     cle = cle % nbEntrees;
     return cle;
 
+}
+
+
+// Afficher le nombre total d'élement
+int nbTotalElement(s_tableHash * laTable)
+{
+    int nbTotalElement1 = 0;
+    for(int i = 0;i<(laTable->size);i++)
+    {
+        nbTotalElement1 = nbTotalElement1 + laTable->list[i].nb_elem_list_chaine;
+    }
+    return nbTotalElement1;
+}
+
+double ecartType(s_tableHash * laTable)
+{
+    double moyenne = 0;
+    double variance = 0;
+    double ecartType;
+
+    for(int i = 0;i<(laTable->size);i++)
+    {
+        moyenne = moyenne + laTable->list[i].nb_elem_list_chaine;
+    }
+    moyenne = moyenne / laTable->size;
+
+
+    for(int i = 0;i<(laTable->size);i++)
+    {
+        variance = variance + pow(laTable->list[i].nb_elem_list_chaine - moyenne,2);
+    }
+
+    ecartType = sqrt(variance);
+
+    return ecartType;
+}
+
+// Afficher le max et min 
+void afficheStats(s_tableHash * table)
+{
+    int max = table->list[0].nb_elem_list_chaine;
+    int min = table->list[0].nb_elem_list_chaine;
+
+    for(int i = 0; i < table->size; i++)
+    {
+        if(max < table->list[i].nb_elem_list_chaine)
+        {
+            max = table->list[i].nb_elem_list_chaine;
+        }
+
+        if(min > table->list[i].nb_elem_list_chaine)
+        {
+            min = table->list[i].nb_elem_list_chaine;
+        }
+    }
+
+    printf("Nombre maximum d'entrées : %d\n", max);
+    printf("Nombre minimum d'entrées : %d\n", min);
 }

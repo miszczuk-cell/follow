@@ -47,6 +47,7 @@ int main(int argc, char const *argv[])
     // On affiche notre table (vide)
     // afficheTableHash(table);
 
+    printf("L'écart type de la table est : %.2f\n",ecartType(table));
     return 0;
 }
 

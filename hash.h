@@ -34,4 +34,8 @@ int nbTotalElement(s_tableHash * laTable);
 
 void afficheTableHash(s_tableHash * tableHash);
 
+void afficheStats(s_tableHash * table);
+
+double ecartType(s_tableHash * laTable);
+
 #endif
