@@ -143,13 +143,16 @@ double ecartType(s_tableHash * laTable)
         moyenne = moyenne + laTable->list[i].nb_elem_list_chaine;
     }
     moyenne = moyenne / laTable->size;
-
+    printf("La moyenne est : %f\n",moyenne);
 
     for(int i = 0;i<(laTable->size);i++)
     {
         variance = variance + pow(laTable->list[i].nb_elem_list_chaine - moyenne,2);
+        printf("(%d - %f)² = %f\n",laTable->list[i].nb_elem_list_chaine,moyenne,pow(laTable->list[i].nb_elem_list_chaine - moyenne,2));
     }
 
+    variance = variance / laTable->size;
+    printf("Variance : %f\n",variance);
     ecartType = sqrt(variance);
 
     return ecartType;
