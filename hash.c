@@ -13,9 +13,6 @@ s_tableHash * create_table(int size)
 
     tableHash->list = malloc(sizeof(s_list)* size);
 
-    // tableHash->list->newNode = malloc(sizeof(s_node));
-    // tableHash->list->nb_elem_list_chaine = 0;
-
     return tableHash;
 }
 
@@ -31,11 +28,12 @@ s_tableHash * destroyHash(s_tableHash * tableHash)
     free(tableHash);
 }
 
-// Ajout d'un mot
 s_tableHash * appendTableHash(char * str, s_tableHash * tableHash)
 {
     int key = hash(str, tableHash->size);
 
+    //On vérifie si la liste correspondant à la clef
+    //contient déjà des elements
     if (tableHash->list[key].nb_elem_list_chaine == 0)
     {
         tableHash->list[key].newNode = list_create();
@@ -48,6 +46,24 @@ s_tableHash * appendTableHash(char * str, s_tableHash * tableHash)
         tableHash->list[key].nb_elem_list_chaine++;
     }
 
+}
+
+s_tableHash * appendTableHash1(char * str, s_tableHash * tableHash)
+{
+    int key = hash(str, tableHash->size);
+
+    s_node * previousNode = tableHash->list->newNode;
+    s_node * currentNode = previousNode->next;
+
+    if(compare_data(previousNode,str) > 0)
+    {
+        
+    }
+
+    while(currentNode->next != NULL)
+    {
+        
+    }
 }
 
 s_tableHash * removeTableHash(char * str, s_tableHash * tableHash)
